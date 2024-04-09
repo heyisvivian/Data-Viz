@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt
 
-df = pd.read_csv('merge_train_mini.csv')
+df = pd.read_csv('merged_train_mini.csv')
 
 '''
 @st.cache
