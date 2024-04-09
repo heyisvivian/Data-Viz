@@ -1,8 +1,12 @@
 import streamlit as st
 import pandas as pd
-import requests
-from io import StringIO
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import altair as alt
 
+df = pd.read_csv('data/merge_train_mini.csv')
+'''
 @st.cache
 def load_data(url):
     response = requests.get(url)
@@ -23,6 +27,5 @@ merged_data = pd.merge(data_x, data_y, on='emergency vehicle selection')
 
 # Use the merged data in your app
 st.write(merged_data)
-
-
+'''
 
