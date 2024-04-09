@@ -11,6 +11,5 @@ df = pd.read_csv('merged_train_mini.csv')
 df['emergency vehicle type'].value_counts().plot.pie(autopct='%1.1f%%')
 plt.title('Emergency Vehicle Type')
 plt.show()
-st.pyplot()
 
 
