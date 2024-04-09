@@ -7,9 +7,12 @@ import altair as alt
 
 df = pd.read_csv('merged_train_mini.csv')
 
-#plot the pie chart of emergency vehicle type
-df['emergency vehicle type'].value_counts().plot.pie(autopct='%1.1f%%')
-plt.title('Emergency Vehicle Type')
-plt.show()
-st.pyplot()
+# Create a Matplotlib figure and axis
+fig, ax = plt.subplots()
+# Plot data on the axis
+df['emergency vehicle type'].value_counts().plot.pie(autopct='%1.1f%%', ax=ax)
+# Set the title
+ax.set_title('Emergency Vehicle Type')
+# Display the plot in Streamlit
+st.pyplot(fig)
 
