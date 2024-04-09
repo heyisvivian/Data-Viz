@@ -6,6 +6,7 @@ import seaborn as sns
 import altair as alt
 
 df = pd.read_csv('data/merge_train_mini.csv')
+
 '''
 @st.cache
 def load_data(url):
