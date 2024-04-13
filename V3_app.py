@@ -133,7 +133,7 @@ with col2:
     longitude='longitude centroid:Q',
     latitude='latitude centroid:Q',
     size=alt.Size('Number of interventions:Q'),
-    color=alt.value('red'),
+    color=alt.value('purple'),
     ).add_params(
         select_centroid
     ).interactive()
@@ -143,7 +143,7 @@ with col2:
         longitude="longitude before departure:Q",
         latitude2="latitude centroid:Q",
         longitude2="longitude centroid:Q",
-        color=alt.value('white')
+        color=alt.value('yellow')
     ).transform_filter(
         select_centroid
     )
