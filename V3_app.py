@@ -184,13 +184,21 @@ bar_chart = alt.Chart(top_average_delta).mark_bar().encode(
 # Calculating the top 10 most used emergency vehicle types
 top_vehicles = df['emergency vehicle type'].value_counts().nlargest(10).reset_index()
 top_vehicles.columns = ['emergency vehicle type', 'count']
+total_count = top_vehicles['count'].sum()
+top_vehicles['percentage'] = (top_vehicles['count'] / total_count) * 100
 
 # Pie chart of the top 10 most used emergency vehicle types
 pie_chart = alt.Chart(top_vehicles).mark_arc().encode(
     theta=alt.Theta(field='count', type='quantitative', title='Number of Dispatches'),
     color=alt.Color(field='emergency vehicle type', type='nominal', legend=alt.Legend(title="Vehicle Type")),
-    tooltip=['emergency vehicle type', 'count']
+    tooltip=['emergency vehicle type', 'count', alt.Tooltip(field='percentage', type='quantitative', format='.2f')]
 ).properties(width=350, height=400)
+
+# pie_chart = alt.Chart(top_vehicles).mark_arc().encode(
+#     theta=alt.Theta(field='count', type='quantitative', title='Number of Dispatches'),
+#     color=alt.Color(field='emergency vehicle type', type='nominal', legend=alt.Legend(title="Vehicle Type")),
+#     tooltip=['emergency vehicle type', 'count']
+# ).properties(width=350, height=400)
 
 # Create two columns for the bar chart and pie chart
 col1, col2 = st.columns([2, 1])
