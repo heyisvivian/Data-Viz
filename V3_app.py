@@ -167,15 +167,15 @@ with col3:
 st.header("Response Time and Vehicle Emergency Analysis")
 
 # Calculating the average delta times for each vehicle type
-average_delta = df.groupby('emergency vehicle type')['delta selection-departure'].mean().reset_index()
-top_average_delta = average_delta.sort_values(by='delta selection-departure', ascending=False).head(15)
+average_delta = df.groupby('emergency vehicle type')['delta selection-presentation'].mean().reset_index()
+top_average_delta = average_delta.sort_values(by='delta selection-presentation', ascending=False).head(15)
 
 # Bar chart of average delta times by emergency vehicle type
 bar_chart = alt.Chart(top_average_delta).mark_bar().encode(
-    x=alt.X('delta selection-departure:Q', title='Average Delta Time (s)'),
+    x=alt.X('delta selection-presentation:Q', title='Average Delta Time (s)'),
     y=alt.Y('emergency vehicle type:N', sort='-x', title='Emergency Vehicle Type'),
     color=alt.Color(field='emergency vehicle type', type='nominal', legend=None),
-    tooltip=['emergency vehicle type', 'delta selection-departure']
+    tooltip=['emergency vehicle type', 'delta selection-presentation']
 ).properties(width=350, height=400)
 
 # Calculating the top 10 most used emergency vehicle types
@@ -201,7 +201,7 @@ pie_chart = alt.Chart(top_vehicles).mark_arc().encode(
 col1, col2 = st.columns([2, 1])
 
 with col1:
-    st.subheader("Average Delta Selection-Departure Time by Vehicle Type")
+    st.subheader("Average Delta Selection-Presentation Time by Vehicle Type")
     st.altair_chart(bar_chart, use_container_width=True)
 
 with col2:
