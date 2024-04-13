@@ -68,7 +68,7 @@ The phone rings, and with it, an echo of distress travels through the wires. The
 # Map Visualization with Filters
 st.header("Accident Location Analysis")
 # Creating columns for filters and map
-col1, col2, col3 = st.columns([1, 3, 2])
+col1, col2, col3 = st.columns([1, 4, 1])
 
 with col1:
     st.subheader("Filters")
@@ -78,17 +78,14 @@ with col1:
     accident_reason = st.selectbox("Select Accident Reason", options=accident_reason_options)
     
     time_of_day = st.slider("Select Time of Day", 0, 24, (8, 10))
-    
-    #rescue_center_options = ['All'] + sorted(df['rescue center'].unique().tolist())
-    #selected_rescue_center = st.selectbox("Select Rescue Center", options=rescue_center_options)
 
 paris = 'https://france-geojson.gregoiredavid.fr/repo/departements/75-paris/communes-75-paris.geojson'
 paris = alt.topo_feature(url=paris, feature='geometry')
-df_filtered = df[(df['hour'] >= time_of_day[0]) & (df['hour'] <= time_of_day[1])]
 if accident_reason != 'All':
     df_filtered = df[df['alert reason category'] == accident_reason]
-#if selected_rescue_center != 'All':
-#    df_filtered = df_filtered[df_filtered['rescue center'] == selected_rescue_center]
+else:
+    df_filtered=df 
+df_filtered = df_filtered[(df_filtered['hour'] >= time_of_day[0]) & (df_filtered['hour'] <= time_of_day[1])]
 
 X = df_filtered[['longitude intervention', 'latitude intervention']]
 n_clusters = 10
