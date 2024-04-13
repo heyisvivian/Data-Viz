@@ -9,7 +9,7 @@ df = pd.read_csv('merged_train_mini.csv')
 
 # Use HTML with inline CSS to style your title
 st.markdown("""
-    <h1 style='text-align: center; color: red; font-size: 48px;'>
+    <h1 style='text-align: center; color: red; font-size: 34px;'>
         Emergency Vehicle Response Time Analysis
     </h1>""", unsafe_allow_html=True)
 
@@ -22,20 +22,26 @@ norm = mcolors.Normalize(vmin=top_10_avg_deltas.min(), vmax=top_10_avg_deltas.ma
 cmap = plt.cm.Reds
 colors = [cmap(norm(value)) for value in top_10_avg_deltas] #assign color 
 fig1, ax1 = plt.subplots()
-fig1, ax1 = plt.subplots(figsize=(10, 8))
+fig1, ax1 = plt.subplots(figsize=(15, 10))
 explode = [0.05] * 10
 custom_labels = list(top_10_types[:5]) + [None] * (10 - 5)
+
 patches, texts, autotexts = ax1.pie(
     df['emergency vehicle type'].value_counts().head(10),
     labels=custom_labels,
-    autopct='%1.1f%%',
+    autopct='%1.1f%%',  # Percentage formatting
     startangle=90,
     colors=colors,
     explode=explode,
-    textprops={'fontsize': 9}
+    textprops={'fontsize': 10},  # Smaller font size
+    pctdistance=0.85,  # Adjust this value as needed to move percentage labels out
+    labeldistance=1.1  # Adjust this value to move labels out
 )
+
 for autotext in autotexts:
     autotext.set_color('black')
+    autotext.set_horizontalalignment('center')
+
 sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
 cbar = plt.colorbar(sm, ax=ax1)
@@ -54,13 +60,16 @@ norm_alerts = mcolors.Normalize(vmin=top_5_avg_deltas_alerts.min(), vmax=top_5_a
 cmap_alerts = plt.cm.Blues 
 colors_alerts = [cmap_alerts(norm_alerts(value)) for value in top_5_avg_deltas_alerts]
 
-fig2, ax2 = plt.subplots(figsize=(10, 8))
+fig2, ax2 = plt.subplots(figsize=(15, 10))
+explode1 = [0.05] * 5
 patches, texts, autotexts = ax2.pie(
     df['alert reason category'].value_counts().nlargest(5),
     labels=top_5_alerts,
     autopct='%1.1f%%',
+    explode=explode1,
     startangle=90,
-    colors=colors_alerts
+    colors=colors_alerts,
+    pctdistance=0.85,
 )
 
 for autotext in autotexts:
