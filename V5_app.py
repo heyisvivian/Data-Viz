@@ -76,7 +76,7 @@ with col1:
     st.subheader("Filters")
     accident_reason_options = ['All'] + sorted(df['alert reason category'].unique().tolist())
     accident_reason = st.selectbox("Select accident reason", options=accident_reason_options)
-    
+
     time_of_day = st.slider("Select Time of Day", 0, 24, (8, 10))
 
 #Paris map
@@ -148,7 +148,7 @@ with col2:
         alt.Tooltip(field='latitude centroid', title="Latitude centroid"),
         alt.Tooltip(field='longitude centroid', title="Longitude centroid"),"Number of interventions:Q"
     ],
-    color=alt.value('purple'),
+    color=alt.value('#f535aa'),
     ).add_params(
         select_centroid
     ).interactive()
@@ -185,7 +185,7 @@ st.markdown("""
 <div style="font-family: sans-serif; text-align: justify; font-size: 14px; line-height: 1.6;">
     <div style="display: inline-flex; align-items: center; margin-right: 10px; margin-bottom: 10px;">
         <svg height="15" width="15">
-            <circle cx="7" cy="7" r="5" fill="none" stroke="purple" stroke-width="2"/>
+            <circle cx="7" cy="7" r="5" fill="none" stroke="#f535aa" stroke-width="2"/>
         </svg>
         Main Zone of Intervention
     </div>
@@ -213,19 +213,6 @@ st.markdown('------')
 #Second part - Response time and vehicle emergency analysis
 st.header("Response time and vehicle emergency analysis")
 
-#Calculate the average delta times for each vehicle type
-average_delta = df.groupby('emergency vehicle type')['delta selection-presentation'].mean() 
-average_delta = average_delta.reset_index()
-top_average_delta = average_delta.sort_values(by='delta selection-presentation', ascending=False).head(15)
-
-#Bar chart of average delta times by emergency vehicle type
-bar_chart = alt.Chart(top_average_delta).mark_bar().encode(
-    x=alt.X('delta selection-presentation:Q', title='Average delta time (s)'),
-    y=alt.Y('emergency vehicle type:N', sort='-x', title='Emergency vehicle type'),
-    color=alt.Color(field='emergency vehicle type', type='nominal', legend=None),
-    tooltip=[alt.Tooltip(field='emergency vehicle type', title='Emergency vehicle type'), alt.Tooltip(field='delta selection-presentation', format='.2f', title='Delta selection-presentation')]
-).properties(width=350, height=400)
-
 #Calculating the top 10 most used emergency vehicle types
 top_vehicles = df['emergency vehicle type'].value_counts().nlargest(10).reset_index()
 top_vehicles.columns = ['emergency vehicle type', 'count']
@@ -236,22 +223,38 @@ top_vehicles['percentage'] = (top_vehicles['count'] / total_count) * 100
 pie_chart = alt.Chart(top_vehicles).mark_arc().encode(
     theta=alt.Theta(field='count', type='quantitative', title='Number of dispatches'),
     color=alt.Color(field='emergency vehicle type', type='nominal', legend=alt.Legend(title="Vehicle type")),
-    tooltip=[alt.Tooltip(field='emergency vehicle type', title='Emergency vehicle type'), alt.Tooltip(field='count', title='Count'), alt.Tooltip(field='percentage', type='quantitative', format='.2f', title='Percentage')]
+    tooltip=[alt.Tooltip(field='emergency vehicle type', title='Emergency vehicle type'),
+             alt.Tooltip(field='count', title='Count'),
+             alt.Tooltip(field='percentage', type='quantitative', format='.2f', title='Percentage')]
 ).properties(width=350, height=400)
 
 
-#Create two columns for the bar chart and pie chart
-col1, col2 = st.columns([2, 1])
+#Calculate the average delta times for each vehicle type
+average_delta = df.groupby('emergency vehicle type')['delta selection-presentation'].mean().reset_index()
+average_delta['delta_minutes'] = average_delta['delta selection-presentation'] / 60
+average_delta = average_delta.merge(top_vehicles[['emergency vehicle type']], on='emergency vehicle type', how='inner')
+top_average_delta = average_delta.sort_values(by='delta selection-presentation', ascending=False).head(15)
 
-#Display bar chart
-with col1:
-    st.subheader("Average delta selection-presentation time by vehicle type")
-    st.altair_chart(bar_chart, use_container_width=True)
+#Bar chart of average delta times by rescue center
+bar_chart = alt.Chart(top_average_delta).mark_bar().encode(
+    x=alt.X('delta_minutes:Q', title='Average delta time (minutes)'),
+    y=alt.Y('emergency vehicle type:N', sort='x', title='Emergency vehicle type'),
+    color=alt.Color(field='emergency vehicle type', type='nominal', legend=None),
+    tooltip=[alt.Tooltip(field='emergency vehicle type', title='Emergency vehicle type'),
+             alt.Tooltip(field='delta_minutes', format='.2f', title='Average delta')]
+).properties(width=350, height=400)
+
+#Create two columns for the bar chart and pie chart
+col1, col2 = st.columns([1, 2])
 
 #Display pie chart
-with col2:
+with col1:
     st.subheader("Top 10 most used emergency vehicles")
     st.altair_chart(pie_chart, use_container_width=True)
+
+with col2:
+    st.subheader(f"Average delta selection-presentation time by top 10 most used emergency vehicles")
+    st.altair_chart(bar_chart, use_container_width=True)
 
 justified_text2 = """
 <div style='text-align: justify;'>
@@ -307,6 +310,10 @@ justified_text3 = """
  Our final analysis takes us through the daily rhythms of the city as seen in the brigade's travel times. The line graph tracks the average minutes it takes for rescue units to reach an accident site throughout the day. The fluctuating lines reflect the ebb and flow of the city’s traffic and how it impacts the brigade's ability to provide timely help. By comparing different types of emergencies, we can identify patterns and potential bottlenecks in the city's infrastructure that could affect rescue efforts.</div>
 """
 st.markdown(justified_text3, unsafe_allow_html=True)
+
+st.markdown('------')
+
+st.markdown("<p style='color: white; text-align: center;'>Master in Data Sciences and Business Analytics - Centralesupélec & ESSEC - Cupillard Charlotte, Khayat Nathan, Revcolevschi Hannah, Wang Xiaoqing</p>", unsafe_allow_html=True)
 
 st.markdown('------')
 
