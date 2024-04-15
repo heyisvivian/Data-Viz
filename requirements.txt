@@ -1,4 +1,4 @@
 streamlit
 pandas
 altair
-sklearn
+sklearn.cluster
