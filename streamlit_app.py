@@ -315,6 +315,3 @@ st.markdown('------')
 
 st.markdown("<p style='color: white; text-align: center;'>Master in Data Sciences and Business Analytics - Centralesupélec & ESSEC - Cupillard Charlotte, Khayat Nathan, Revcolevschi Hannah, Wang Xiaoqing</p>", unsafe_allow_html=True)
 
-st.markdown('------')
-
-st.markdown("<p style='color: white; text-align: center;'>Master in Data Sciences and Business Analytics - Centralesupélec & ESSEC - Cupillard Charlotte, Khayat Nathan, Revcolevschi Hannah, Wang Xiaoqing</p>", unsafe_allow_html=True)
