@@ -165,7 +165,7 @@ with col2:
 
 
     chart = (paris + centroid_points)
-    chart = (chart + connections + points).configure_legend(labelColor='white', titleColor='white')
+    chart = (chart + connections + points).configure_legend()
 
     map_container = st.altair_chart(chart, use_container_width=True)
 
@@ -313,5 +313,5 @@ st.markdown(justified_text3, unsafe_allow_html=True)
 
 st.markdown('------')
 
-st.markdown("<p style='color: white; text-align: center;'>Master in Data Sciences and Business Analytics - Centralesupélec & ESSEC - Cupillard Charlotte, Khayat Nathan, Revcolevschi Hannah, Wang Xiaoqing</p>", unsafe_allow_html=True)
+st.markdown("<p style=' text-align: center;'>Master in Data Sciences and Business Analytics - Centralesupélec & ESSEC - Cupillard Charlotte, Khayat Nathan, Revcolevschi Hannah, Wang Xiaoqing</p>", unsafe_allow_html=True)
 
