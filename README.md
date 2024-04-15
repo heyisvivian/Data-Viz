@@ -10,7 +10,7 @@
 - **streamlit_app.py:**
   The main Python file that powers the website interface and functionality.
   
-- **Data:**
+- **data.csv:**
   Contains a subset of the original dataset used for analysis.
 
 **Website URL:**
