@@ -220,7 +220,7 @@ top_average_delta = average_delta.sort_values(by='delta selection-presentation',
 
 #Bar chart of average delta times by emergency vehicle type
 bar_chart = alt.Chart(top_average_delta).mark_bar().encode(
-    x=alt.X('delta selection-presentation:Q', title='Average delta time (minutes)'),
+    x=alt.X('delta selection-presentation:Q', title='Average delta time (s)'),
     y=alt.Y('emergency vehicle type:N', sort='-x', title='Emergency vehicle type'),
     color=alt.Color(field='emergency vehicle type', type='nominal', legend=None),
     tooltip=[alt.Tooltip(field='emergency vehicle type', title='Emergency vehicle type'), alt.Tooltip(field='delta selection-presentation', format='.2f', title='Delta selection-presentation')]
