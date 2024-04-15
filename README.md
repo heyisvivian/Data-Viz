@@ -22,5 +22,4 @@
 2. Run `streamlit_app.py` to launch the website interface.
 3. Explore the interactive visualizations to gain insights into emergency response time in Paris.
 
-**Note:**
-For access to the full dataset or further inquiries, please contact [author/email].
+
